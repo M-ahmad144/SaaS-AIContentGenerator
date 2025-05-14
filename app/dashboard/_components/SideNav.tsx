@@ -2,8 +2,6 @@
 
 import { FileClock, Home, Settings } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
-import UsageTrack from "./UsageTrack";
 
 function SideNav() {
   const Menulist = [
@@ -37,9 +35,7 @@ function SideNav() {
           </div>
         ))}
       </div>
-      <div className="w-full">
-        <UsageTrack />
-      </div>
+      <div className="w-full"></div>
     </div>
   );
 }
