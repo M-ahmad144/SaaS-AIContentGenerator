@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/react-editor";
+import React, { useRef } from "react";
+import Editor from "@monaco-editor/react";
 import { Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -10,18 +9,10 @@ interface Props {
 
 function OutputSection({ aiOutput }: Props) {
   const editorRef = useRef<any>(null);
-  const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    const instance = editorRef.current?.getInstance?.();
-    if (instance && typeof instance.setMarkdown === "function") {
-      instance.setMarkdown(aiOutput);
-    }
-  }, [aiOutput]);
+  const handleEditorDidMount = (editor: any) => {
+    editorRef.current = editor;
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(aiOutput);
@@ -37,19 +28,22 @@ function OutputSection({ aiOutput }: Props) {
         </Button>
       </div>
 
-      {isClient && (
+      <div className="h-[400px]">
         <Editor
-          ref={editorRef}
-          initialValue="Your result will appear here"
-          height="400px"
-          initialEditType="wysiwyg"
-          useCommandShortcut={true}
-          onChange={() => {
-            const instance = editorRef.current?.getInstance?.();
-            console.log(instance?.getMarkdown());
+          height="100%"
+          language="markdown"
+          value={aiOutput || "Your result will appear here"}
+          onMount={handleEditorDidMount}
+          options={{
+            readOnly: true,
+            minimap: { enabled: false },
+            scrollBeyondLastLine: false,
+            fontSize: 14,
+            wordWrap: "on",
+            theme: "vs-light", // or "vs-dark" for dark mode
           }}
         />
-      )}
+      </div>
     </div>
   );
 }
