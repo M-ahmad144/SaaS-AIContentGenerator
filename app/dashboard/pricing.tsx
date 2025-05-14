@@ -14,7 +14,6 @@ const Pricing = () => {
     // Simulate payment processing
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Navigate to success page
     router.push(`/payment/success?plan=${plan}`);
     setLoading(null);
   };
