@@ -1,6 +1,6 @@
 "use client";
 
-import { FileClock, Home, Settings } from "lucide-react";
+import { CreditCard, FileClock, Home, Settings } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 function SideNav() {
@@ -10,32 +10,50 @@ function SideNav() {
       icon: Home,
       path: "/dashboard",
     },
+    {
+      name: "Billing",
+      icon: CreditCard,
+      path: "/billing",
+    },
   ];
+
   const currentPath = usePathname();
   const router = useRouter();
 
   return (
-    <div className="bg-white shadow-sm p-4 border w-[95%] overflow-y-scroll">
-      <div className="flex justify-center">
-        <img src="/logo.svg" alt="logo" width={120} height={90} />
+    <div className="flex flex-col bg-white dark:bg-gray-800 shadow-sm p-4 dark:border-gray-700 border-r w-64 h-full">
+      {/* Logo Section */}
+      <div className="flex justify-center mb-6">
+        <img
+          src="/logo.svg"
+          alt="logo"
+          width={120}
+          height={90}
+          className="dark:invert"
+        />
       </div>
-      <hr className="my-3 border" />
-      <div className="mt-3">
+
+      <hr className="my-3 border-gray-200 dark:border-gray-700" />
+
+      {/* Main Navigation */}
+      <div className="flex-1">
         {Menulist.map((menu) => (
           <div
             key={menu.path}
             onClick={() => router.push(menu.path)}
-            className={`flex gap-2 mb-2 p-3
-              hover:bg-primary hover:text-white rounded-lg cursor-pointer
-              ${currentPath === menu.path ? "bg-primary text-white" : ""}
-            `}
+            className={`flex items-center gap-3 mb-2 p-3 rounded-lg transition-all
+              hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-gray-700 cursor-pointer
+              ${
+                currentPath === menu.path
+                  ? "bg-blue-100 text-blue-600 dark:bg-gray-700 dark:text-blue-400 font-medium"
+                  : "text-gray-700 dark:text-gray-300"
+              }`}
           >
-            <menu.icon />
-            <h2 className="text-lg">{menu.name}</h2>
+            <menu.icon className="w-5 h-5" />
+            <span className="text-sm">{menu.name}</span>
           </div>
         ))}
       </div>
-      <div className="w-full"></div>
     </div>
   );
 }
